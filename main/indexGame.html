@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สุ่มคำ - เกมคำต้องห้าม</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1A1A1A;
+            font-family: 'Arial', sans-serif;
+            color: #FFF;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+        }
+
+        .logo-container {
+            position: relative;
+        }
+
+        .logo-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .title {
+            font-size: 4rem;
+            font-weight: bold;
+            line-height: 1.2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .start-button {
+            margin-top: 1rem;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FFF;
+            background-color: #FF2D75;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .start-button:hover {
+            background-color: #8f103f;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .word {
+            font-size: 10rem;
+            font-weight: bold;
+            margin: 2rem 0;
+            display: none;
+            border: 4px solid #FF2D75;
+            padding: 2rem;
+            border-radius: 20px;
+            background-color: #333;
+            color: #ffffff;
+        }
+
+        .buttons {
+            display: none;
+            flex-direction: row;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FFF;
+            background-color: #FF2D75;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background-color: #8f103f;
+        }
+
+        .message {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        .continue-button {
+            margin-top: 1rem;
+            padding: 1rem 2rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FFF;
+            background-color: #42A5F5;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: none;
+        }
+
+        .continue-button:hover {
+            background-color: #d219a4;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <div class="title">
+                <span><img src="logogame2.png"></span>
+            </div>
+            <button id="start-game" class="start-button">เริ่มเกม</button>
+        </div>
+
+        <div id="game-container" class="hidden">
+            <div id="word" class="word"></div>
+
+            <div class="buttons">
+                <button onclick="addScore()">ได้ 1 คะแนน</button>
+                <button onclick="winGame()">ชนะ</button>
+                <button onclick="loseGame()">แพ้</button>
+                <button onclick="changeWord()">เปลี่ยนคำ</button>
+            </div>
+            <div id="message" class="message"></div>
+            <button id="continue-button" class="continue-button" onclick="continueGame()">เล่นต่อ</button>
+        </div>
+    </div>
+
+    <script>
+        const words = ["มิตรภาพ", "ความรัก", "ชนะ",
+  "น้ำ", "แปรงฟัน", "ดิน", "ฟ้า", "ป่า", "เมฆ", "พายุ", "ดวงอาทิตย์",
+  "ดวงจันทร์", "ดาว", "ไฟ", "ลม", "หิมะ", "ฝน", "เขา", "ทะเล", "น้ำตก", 
+  "แม่น้ำ", "ปลา", "สุนัข", "แมว", "นก", "หนู", "กระต่าย", 
+  "ช้าง", "เสือ", "สิงโต", "แรด", "จระเข้", "เต่า", "กบ", "แมลง", "ผีเสื้อ", 
+  "ผึ้ง", "มด", "ดอกไม้", "ต้นไม้", "ผลไม้", "ข้าว", "ขนมปัง", "ไข่", "เนื้อ", 
+  "นม", "เนย", "ชีส", "น้ำตาล", "เกลือ", "พริก", "หอม", "มะเขือเทศ", "นอน",
+  "มะม่วง", "กล้วย", "ส้ม", "มะละกอ", "ลำไย", "ทุเรียน", "เที่ยว", "ลิ้นจี่", "ข้าวโพด",
+  "ถั่ว", "แตงโม", "ไม้", "หญ้า", "ทราย", "โคลน", "ถนน", "รถยนต์", "รถไฟ", "เรือ", "เครื่องบิน", "จักรยาน", "มอเตอร์ไซค์", 
+  "โรงเรียน", "วัด", "สวน","กิน", "นอน", "วิ่ง", "เดิน", "พูด", "ฟัง", "เขียน", "อ่าน", "เต้น", 
+  "ว่าย", "ขับ", "บิน", "ดู", "ร้อง", "เล่น", "จับ", "ชอบ", "รัก", 
+  "เกลียด", "หลับ", "ตื่น", "ทาง", "กลับ", "เริ่ม", "หยุด", 
+  "เรียน", "สอน", "ทำ", "ให้", "ล้าง", "แต่ง", "ซ่อม", "สร้าง", "บอก", 
+  "ดม", "เคาะ", "แปรง", "กัด", "ดึง", "นับ", "พก", "ใส่", "ถอด", "ดื่ม", 
+  "บ่น", "คุย", "คิด", "เชื่อ", "ฝาก", "หยิบ", "ใส่ใจ", "จอด", "ถ่าย", 
+  "ซัก", "พับ", "ฟาด", "ปิด", "เปิด", "ต่อ", "ตัด", "ไต่", 
+  "ลอด", "หลบ", "ถู", "ทา", "แพ้", "ชนะ", "เรียก", 
+  "ถอน", "ยืน", "นั่ง", "พัก", "ลอง", "จิ้ม", "กด", "ลด", "เพิ่ม", "หา", 
+  "ช่วย", "รวม", "แยก", "เลิก", "ปรุง", "เก็บ", "ฝึก", "ร้องไห้", "หัวเราะ", 
+  "กราบ", "ไหว้", "จ่าย", "เช่า", "ยืม", "คืน", "ซ่อม"
+];
+        let currentWord = "";
+
+        const startButton = document.getElementById('start-game');
+        const gameContainer = document.getElementById('game-container');
+        const wordDisplay = document.getElementById('word');
+        const buttons = document.querySelector('.buttons');
+        const messageDisplay = document.getElementById('message');
+        const continueButton = document.getElementById('continue-button');
+
+        function startGame() {
+            startButton.classList.add('hidden');
+            gameContainer.classList.remove('hidden');
+            buttons.style.display = 'flex';
+            showNewWord();
+        }
+
+        function showNewWord() {
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            wordDisplay.textContent = currentWord;
+            wordDisplay.style.display = 'block';
+            messageDisplay.textContent = ""; // Clear message
+            continueButton.style.display = 'none';
+        }
+
+        function addScore() {
+            messageDisplay.textContent = "คุณได้ 1 คะแนน!";
+        }
+
+        function winGame() {
+            window.location.href = "win.html";
+        }
+
+        function loseGame() {
+            window.location.href = "lose.html";
+        }
+
+        function changeWord() {
+            showNewWord();
+        }
+
+        function continueGame() {
+            showNewWord();
+        }
+
+        startButton.addEventListener('click', startGame);
+    </script>
+</body>
+</html>
