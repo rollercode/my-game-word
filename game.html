@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำต้องห้าม</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1A1A1A;
+            font-family: 'Arial', sans-serif;
+            color: #FFF;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            max-width: 600px;
+        }
+
+        .title {
+            font-size: 4rem;
+            font-weight: bold;
+            line-height: 1.2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .title span {
+            position: relative;
+            color: #FFF;
+        }
+
+        .title span.cross {
+            color: #FF2D75;
+            font-size: 5rem;
+            font-weight: bold;
+        }
+
+        .start-button {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FFF;
+            background-color: #FF2D75;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .start-button:hover {
+            background-color: #D12060;
+        }
+
+        .triangle {
+            position: absolute;
+            left: 10%;
+            bottom: 10%;
+            width: 100px;
+            height: 100px;
+            background-color: #064E40;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .circle {
+            position: absolute;
+            right: 15%;
+            top: 10%;
+            width: 120px;
+            height: 120px;
+            background-color: #422dff;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <span><img src="logogame.png"></span>
+        </div>
+        <button class="start-button" onclick="startGame()">Start game</button>
+        <div class=""></div>
+        <div class=""></div>
+    </div>
+
+    <script>
+        function startGame() {
+            window.location.href = "start.html"; // Change this to the game page URL
+        }
+    </script>
+</body>
+</html>
