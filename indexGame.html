@@ -61,18 +61,60 @@
         .hidden {
             display: none;
         }
+        .box {
+            display: flex;
+            margin: auto;
+            border: 4px #42A5F5;
+        }
+
 
         .word {
             font-size: 10rem;
             font-weight: bold;
-            margin: 2rem 0;
+            margin: 2rem auto; /* กำหนดให้อยู่ตรงกลางและมีระยะห่าง */
             display: none;
             border: 4px solid #FF2D75;
-            padding: 2rem;
+            padding: 5rem;
             border-radius: 20px;
             background-color: #333;
             color: #ffffff;
-        }
+            flex-wrap: nowrap;
+            max-width: 90%; /* กำหนดขนาดความกว้างสูงสุดเป็น 90% ของหน้าจอ */
+            }
+
+            @media (max-width: 1200px) {
+            .word {
+                font-size: 4rem;
+            }
+            }
+
+            @media (max-width: 992px) {
+            .word {
+                font-size: 3.5rem;
+            }
+            }
+
+            @media (max-width: 768px) {
+            .word {
+                font-size: 3rem;
+                padding: 1.5rem;
+            }
+            }
+
+            @media (max-width: 576px) {
+            .word {
+                font-size: 2.5rem;
+                padding: 1rem;
+            }
+            }
+
+            @media (max-width: 375px) {
+            .word {
+                font-size: 2rem;
+                padding: 0.5rem;
+            }
+            }
+
 
         .buttons {
             display: none;
@@ -93,9 +135,8 @@
             transition: all 0.3s;
         }
 
-        button:hover {
-            background-color: #8f103f;
-        }
+        
+        
 
         .message {
             margin-top: 1rem;
@@ -134,8 +175,10 @@
         </div>
 
         <div id="game-container" class="hidden">
-            <div id="word" class="word"></div>
-
+            <div class="box">
+                <div id="word" class="word"></div>
+            </div>
+            
             <div class="buttons">
                 <button onclick="addScore()">ได้ 1 คะแนน</button>
                 <button onclick="winGame()">ชนะ</button>
